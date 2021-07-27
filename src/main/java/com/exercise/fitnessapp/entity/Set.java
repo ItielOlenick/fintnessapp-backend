@@ -5,9 +5,9 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbl_users")
+@Table(name="tbl_set")
 @Data
-public class User {
+public class Set{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +15,7 @@ public class User {
 
     private String name;
 
-    private String email;
+    private String bodyPart;
 
-    private String password;
+    private int reps;
 }

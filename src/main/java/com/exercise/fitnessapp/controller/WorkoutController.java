@@ -5,10 +5,7 @@ import com.exercise.fitnessapp.repository.WorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +20,11 @@ public class WorkoutController {
     @GetMapping("/workouts")
     public ResponseEntity<List<Workout>> readWorkouts(){
         return new ResponseEntity<List<Workout>>(workoutRepository.findAll(), HttpStatus.OK);
+    }
+
+    @PostMapping("/workouts")
+    public ResponseEntity<Workout> creatWorkout(@RequestBody Workout workout){
+        System.out.println(workout);
+        return new ResponseEntity<Workout>(workoutRepository.save(workout), HttpStatus.CREATED);
     }
 }
