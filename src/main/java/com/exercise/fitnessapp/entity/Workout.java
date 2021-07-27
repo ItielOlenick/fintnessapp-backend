@@ -1,6 +1,7 @@
 package com.exercise.fitnessapp.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.istack.NotNull;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -21,8 +22,10 @@ public class Workout {
     private String name;
 
     @ElementCollection
+    @CollectionTable()
     private List<String> exercises;
 
+    @NotNull
     @ElementCollection
     private List<String> sets;
 
