@@ -22,7 +22,7 @@ public class Workout {
     private String name;
 
     @ElementCollection
-    @CollectionTable()
+    @NotNull
     private List<String> exercises;
 
     @NotNull
