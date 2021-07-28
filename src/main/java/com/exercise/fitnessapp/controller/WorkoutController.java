@@ -24,7 +24,6 @@ public class WorkoutController {
 
     @PostMapping("/workouts")
     public ResponseEntity<Workout> creatWorkout(@RequestBody Workout workout){
-        System.out.println(workout);
         return new ResponseEntity<Workout>(workoutRepository.save(workout), HttpStatus.CREATED);
     }
 }

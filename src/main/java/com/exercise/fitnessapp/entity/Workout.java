@@ -21,13 +21,9 @@ public class Workout {
 
     private String name;
 
-    @ElementCollection
+    @OneToMany(cascade = CascadeType.ALL)
     @NotNull
-    private List<String> exercises;
-
-    @NotNull
-    @ElementCollection
-    private List<String> sets;
+    private List<Set> Sets;
 
     @Column(name="creater_at", nullable = false, updatable = false)
     @CreationTimestamp
