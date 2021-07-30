@@ -37,4 +37,9 @@ public class WorkoutController {
         workoutRepository.deleteById(id);
         return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping("/workouts")
+    public ResponseEntity<Workout> updateWorkout(@RequestBody Workout workout){
+        return new ResponseEntity<Workout>(workoutRepository.save(workout), HttpStatus.OK);
+    }
 }
