@@ -18,8 +18,8 @@ public class WorkoutController {
     WorkoutRepository workoutRepository;
 
     @GetMapping("/workouts")
-    public ResponseEntity<List<Workout>> readWorkouts(){
-        return new ResponseEntity<List<Workout>>(workoutRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<Workout>> readWorkouts(@RequestParam("owner") String owner){
+        return new ResponseEntity<List<Workout>>(workoutRepository.findByOwner(owner), HttpStatus.OK);
     }
 
     @PostMapping("/workouts")

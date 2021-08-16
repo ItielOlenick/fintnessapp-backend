@@ -16,4 +16,6 @@ public class Exercise {
     private String name;
 
     private String bodyPart;
+
+    private String owner;
 }
