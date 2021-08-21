@@ -20,4 +20,6 @@ public class Set{
     private int reps;
 
     private int weight;
+
+    private String exercisePath;
 }
