@@ -18,4 +18,6 @@ public class Set{
     private String bodyPart;
 
     private int reps;
+
+    private int weight;
 }
