@@ -15,11 +15,13 @@ public class Set{
 
     private String name;
 
-    private String bodyPart;
+    private String category;
 
-    private int reps;
+    private int  reps;
 
     private int weight;
 
     private String exercisePath;
+
+    private boolean isPr = false;
 }

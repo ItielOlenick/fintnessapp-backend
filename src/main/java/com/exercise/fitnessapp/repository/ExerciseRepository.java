@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ExerciseRepository extends JpaRepository<Exercise, Integer>{
     List<Exercise> findByOwner(String owner);
+
+    List<Exercise> findByCategory(Integer id);
 }
