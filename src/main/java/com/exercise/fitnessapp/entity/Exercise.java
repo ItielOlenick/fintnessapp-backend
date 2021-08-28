@@ -1,9 +1,10 @@
 package com.exercise.fitnessapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
-
+import java.util.List;
 
 
 @Entity
@@ -21,5 +22,19 @@ public class Exercise {
 
     private Integer category;
 
-    private String owner;
+    private String exercisePath;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="workout_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Workout workout;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "exercise")
+    private List<Set> sets;
+
 }

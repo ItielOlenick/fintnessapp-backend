@@ -2,10 +2,12 @@ package com.exercise.fitnessapp.controller;
 
 import com.exercise.fitnessapp.entity.Category;
 import com.exercise.fitnessapp.entity.Exercise;
+import com.exercise.fitnessapp.entity.User;
 import com.exercise.fitnessapp.entity.wger.WgerDatabase;
 import com.exercise.fitnessapp.entity.wger.Result;
 import com.exercise.fitnessapp.repository.CategoryRepository;
 import com.exercise.fitnessapp.repository.ExerciseRepository;
+import com.exercise.fitnessapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -30,7 +32,10 @@ public class WgerController {
     @Autowired
     private WebClient.Builder webClientBuilder;
 
-//    @Scheduled(fixedRate = 604800000)
+    @Autowired
+    private UserRepository userRepository;
+
+    @Scheduled(fixedRate = 604800000)
     @PutMapping
     public void updateWgerDatabase() {
         List<Exercise> exercises = new ArrayList<>();
@@ -48,7 +53,7 @@ public class WgerController {
             Exercise exercise = new Exercise();
 
             exercise.setWgerId(result.getId());
-            exercise.setOwner("wger");
+            exercise.setUser(userRepository.getById("wger"));
             exercise.setName(result.getName());
             exercise.setCategory(result.getCategory());
             exercises.add(exercise);
