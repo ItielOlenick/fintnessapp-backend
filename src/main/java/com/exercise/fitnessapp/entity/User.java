@@ -16,9 +16,9 @@ public class User {
 //    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
 //    private List<Workout> workouts;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Set> prs;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    private List<Set> prs;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "user")
-    private List<Exercise> exercises;
+//    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "user")
+//    private List<Exercise> exercises;
 }
