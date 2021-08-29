@@ -22,4 +22,6 @@ public class Exercise {
     private Integer category;
 
     private String owner;
+
+    private String exercisePath;
 }

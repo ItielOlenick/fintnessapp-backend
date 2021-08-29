@@ -88,12 +88,12 @@ public class WorkoutLogController {
             }
 
         }
-        if (prBroken || firstTime) {
-            User user = userRepository.findById(userId).get();
-            user.setPrs(userPrs);
-            System.out.println("updated user" + user);
-            userRepository.save(user);
-        }
+//        if (prBroken || firstTime) {
+//            User user = userRepository.findById(userId).get();
+//            user.setPrs(userPrs);
+//            System.out.println("updated user" + user);
+//            userRepository.save(user);
+//        }
         return brokenPrs;
     }
 }
