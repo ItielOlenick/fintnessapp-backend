@@ -25,8 +25,8 @@ public class Workout {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "workout")
-    private List<Exercise> exercises;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Set> Sets;
 
     @Column(name="creater_at", nullable = false, updatable = false)
     @CreationTimestamp

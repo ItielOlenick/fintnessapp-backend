@@ -56,6 +56,7 @@ public class WgerController {
             exercise.setUser(userRepository.getById("wger"));
             exercise.setName(result.getName());
             exercise.setCategory(result.getCategory());
+            exercise.setExercisePath("[\"wgerExercises\","+result.getCategory()+",\""+result.getName()+"\"]");
             exercises.add(exercise);
         }
 

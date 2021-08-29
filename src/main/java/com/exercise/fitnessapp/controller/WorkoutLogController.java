@@ -34,7 +34,7 @@ public class WorkoutLogController {
     @PostMapping("/logs")
     public ResponseEntity<WorkoutLog> creatWorkoutLog(@RequestBody WorkoutLog workout) {
         workoutLogRepository.save(workout);
-//        checkPr(workout, workout.getUser().getId());
+        checkPr(workout, workout.getUser().getId());
 
         return new ResponseEntity<WorkoutLog>(HttpStatus.CREATED);
     }
@@ -56,44 +56,44 @@ public class WorkoutLogController {
     }
 
 
-//    public List<String[]> checkPr(WorkoutLog log, String userId) {
-//        List<String[]> brokenPrs = new ArrayList<>();
-//        boolean prBroken = false;
-//        boolean firstTime = false;
-//        List<Set> userPrs = userRepository.findById(userId).get().getPrs();
-//        for (Set set : log.getSets()
-//        ) {
-//            System.out.println("are we even here?");
-//            if (userPrs.stream().noneMatch(o -> o.getName().equals(set.getName()))) {
-//                userPrs.add(set);
-//                firstTime = true;
-//                System.out.println("First time using this exercise");
-//            } else {
-//                List<Set> findPrsByName = userPrs.stream().filter(o -> o.getName().equals(set.getName())).collect(Collectors.toList());
-//                Set existingPr = findPrsByName.get(findPrsByName.size() - 1);
-//                System.out.println("Existing pr for" + set.getName() + " is " + existingPr);
-//                System.out.println("Checking against " + set);
-//                if (existingPr.getWeight() < set.getWeight()) {
-////                    uncomment if want to show only last pr as pr
-////                    existingPr.setPr(false);
-//                    set.setPr(true);
-//                    userPrs.add(set);
-//                    System.out.println("set to break pr:" + set);
-//                    System.out.println("updated pr, user's pr state: " + userPrs);
-//
-//                    brokenPrs.add(new String[] {existingPr.getName(),set.getName()});
-//                    prBroken = true;
-//                }
-//
-//            }
-//
-//        }
+    public List<String[]> checkPr(WorkoutLog log, String userId) {
+        List<String[]> brokenPrs = new ArrayList<>();
+        boolean prBroken = false;
+        boolean firstTime = false;
+        List<Set> userPrs = userRepository.findById(userId).get().getPrs();
+        for (Set set : log.getSets()
+        ) {
+            System.out.println("are we even here?");
+            if (userPrs.stream().noneMatch(o -> o.getName().equals(set.getName()))) {
+                userPrs.add(set);
+                firstTime = true;
+                System.out.println("First time using this exercise");
+            } else {
+                List<Set> findPrsByName = userPrs.stream().filter(o -> o.getName().equals(set.getName())).collect(Collectors.toList());
+                Set existingPr = findPrsByName.get(findPrsByName.size() - 1);
+                System.out.println("Existing pr for" + set.getName() + " is " + existingPr);
+                System.out.println("Checking against " + set);
+                if (existingPr.getWeight() < set.getWeight()) {
+//                    uncomment if want to show only last pr as pr
+//                    existingPr.setPr(false);
+                    set.setPr(true);
+                    userPrs.add(set);
+                    System.out.println("set to break pr:" + set);
+                    System.out.println("updated pr, user's pr state: " + userPrs);
+
+                    brokenPrs.add(new String[] {existingPr.getName(),set.getName()});
+                    prBroken = true;
+                }
+
+            }
+
+        }
 //        if (prBroken || firstTime) {
 //            User user = userRepository.findById(userId).get();
 //            user.setPrs(userPrs);
 //            System.out.println("updated user" + user);
 //            userRepository.save(user);
 //        }
-//        return brokenPrs;
-//    }
+        return brokenPrs;
+    }
 }

@@ -14,14 +14,15 @@ public class Set{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String name;
+
+    private String category;
+
     private int  reps;
 
     private int weight;
 
-    private boolean isPr = false;
+    private String exercisePath;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="exercise_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private Exercise exercise;
+    private boolean isPr = false;
 }
