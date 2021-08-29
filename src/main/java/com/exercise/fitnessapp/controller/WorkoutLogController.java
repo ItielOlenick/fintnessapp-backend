@@ -3,6 +3,7 @@ package com.exercise.fitnessapp.controller;
 import com.exercise.fitnessapp.entity.Set;
 import com.exercise.fitnessapp.entity.User;
 import com.exercise.fitnessapp.entity.WorkoutLog;
+import com.exercise.fitnessapp.repository.SetRepository;
 import com.exercise.fitnessapp.repository.UserRepository;
 import com.exercise.fitnessapp.repository.WorkoutLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class WorkoutLogController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    SetRepository setRepository;
 
     @GetMapping("/logs")
     public ResponseEntity<List<WorkoutLog>> readWorkoutLog(@RequestParam("user") String user) {
@@ -60,7 +64,8 @@ public class WorkoutLogController {
         List<String[]> brokenPrs = new ArrayList<>();
         boolean prBroken = false;
         boolean firstTime = false;
-        List<Set> userPrs = userRepository.findById(userId).get().getPrs();
+//        List<Set> userPrs = userRepository.findById(userId).get().getPrs();
+        List<Set> userPrs = setRepository.findByUser_IdAndPrIsTrue(userId);
         for (Set set : log.getSets()
         ) {
             System.out.println("are we even here?");

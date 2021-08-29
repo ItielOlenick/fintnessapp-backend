@@ -1,5 +1,6 @@
 package com.exercise.fitnessapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -23,5 +24,10 @@ public class Set{
 
     private String exercisePath;
 
-    private boolean isPr = false;
+    private boolean pr = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User user;
 }
