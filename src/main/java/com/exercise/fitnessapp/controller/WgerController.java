@@ -35,7 +35,7 @@ public class WgerController {
     @Autowired
     private UserRepository userRepository;
 
-//    @Scheduled(fixedRate = 604800000)
+    @Scheduled(fixedRate = 604800000)
     @PutMapping
     public void updateWgerDatabase() {
         List<Exercise> exercises = new ArrayList<>();
