@@ -37,9 +37,9 @@ public class WorkoutLogController {
 
     @PostMapping("/logs")
     public ResponseEntity<WorkoutLog> creatWorkoutLog(@RequestBody WorkoutLog workout) {
-        workoutLogRepository.save(workout);
+//        workoutLogRepository.save(workout);
         checkPr(workout, workout.getUser().getId());
-
+        workoutLogRepository.save(workout);
         return new ResponseEntity<WorkoutLog>(HttpStatus.CREATED);
     }
 
@@ -70,7 +70,8 @@ public class WorkoutLogController {
         ) {
             System.out.println("are we even here?");
             if (userPrs.stream().noneMatch(o -> o.getName().equals(set.getName()))) {
-                userPrs.add(set);
+
+                set.setPr(true);
                 firstTime = true;
                 System.out.println("First time using this exercise");
             } else {
@@ -82,23 +83,14 @@ public class WorkoutLogController {
 //                    uncomment if want to show only last pr as pr
 //                    existingPr.setPr(false);
                     set.setPr(true);
-                    userPrs.add(set);
+
                     System.out.println("set to break pr:" + set);
                     System.out.println("updated pr, user's pr state: " + userPrs);
-
                     brokenPrs.add(new String[] {existingPr.getName(),set.getName()});
                     prBroken = true;
                 }
-
             }
-
         }
-//        if (prBroken || firstTime) {
-//            User user = userRepository.findById(userId).get();
-//            user.setPrs(userPrs);
-//            System.out.println("updated user" + user);
-//            userRepository.save(user);
-//        }
         return brokenPrs;
     }
 }

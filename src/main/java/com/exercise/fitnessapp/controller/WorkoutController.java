@@ -26,6 +26,8 @@ public class WorkoutController {
 
     @PostMapping("/workouts")
     public ResponseEntity<Workout> creatWorkout(@RequestBody Workout workout) {
+        if (workout.getName() == null || workout.getName() == "")
+            workout.setName("New Workout");
         return new ResponseEntity<Workout>(workoutRepository.save(workout), HttpStatus.CREATED);
     }
 
@@ -42,6 +44,8 @@ public class WorkoutController {
 
     @PutMapping("/workouts")
     public ResponseEntity<Workout> updateWorkout(@RequestBody Workout workout) {
+        if (workout.getName() == null || workout.getName() == "")
+            workout.setName("New Workout");
         return new ResponseEntity<Workout>(workoutRepository.save(workout), HttpStatus.OK);
     }
 }
