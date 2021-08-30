@@ -9,12 +9,14 @@ import com.exercise.fitnessapp.repository.CategoryRepository;
 import com.exercise.fitnessapp.repository.ExerciseRepository;
 import com.exercise.fitnessapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +49,17 @@ public class WgerController {
                         .uri("https://wger.de/api/v2/exercise/?language=2&limit=1000")
                         .accept(MediaType.APPLICATION_JSON)
                         .retrieve()
-                        .bodyToMono(WgerDatabase.class).block();
+                        .onStatus(HttpStatus::is4xxClientError, response -> {
+                            System.out.println("Error! "+response);
+                            return null;
+                        })
+                        .onStatus(HttpStatus::is5xxServerError, response -> {
+                            System.out.println("Error! "+response);
+                            return null;
+                        })
+                        .bodyToMono(WgerDatabase.class).onErrorReturn(new WgerDatabase()).block();
         assert exerciseDatabase != null;
+        if (exerciseDatabase.getResults() != null)
         for (Result result : exerciseDatabase.getResults()) {
             Exercise exercise = new Exercise();
 
@@ -66,8 +77,17 @@ public class WgerController {
                         .uri("https://wger.de/api/v2/exercisecategory/")
                         .accept(MediaType.APPLICATION_JSON)
                         .retrieve()
-                        .bodyToMono(WgerDatabase.class).block();
+                        .onStatus(HttpStatus::is4xxClientError, response -> {
+                            System.out.println("Error! "+response);
+                            return null;
+                        })
+                        .onStatus(HttpStatus::is5xxServerError, response -> {
+                            System.out.println("Error! "+response);
+                            return null;
+                        })
+                        .bodyToMono(WgerDatabase.class).onErrorReturn(new WgerDatabase()).block();
         assert categoryDatabase != null;
+        if (categoryDatabase.getResults() != null)
         for (Result result : categoryDatabase.getResults()) {
             Category category = new Category();
             category.setId(result.getId());
