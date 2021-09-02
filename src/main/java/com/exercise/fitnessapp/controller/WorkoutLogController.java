@@ -32,7 +32,7 @@ public class WorkoutLogController {
 
     @GetMapping("/logs")
     public ResponseEntity<List<WorkoutLog>> readWorkoutLog(@RequestParam("user") String user) {
-        return new ResponseEntity<List<WorkoutLog>>(workoutLogRepository.findByUser_Id(user), HttpStatus.OK);
+        return new ResponseEntity<List<WorkoutLog>>(workoutLogRepository.findByUser_IdOrderByCreatedAtDesc(user), HttpStatus.OK);
     }
 
     @PostMapping("/logs")
