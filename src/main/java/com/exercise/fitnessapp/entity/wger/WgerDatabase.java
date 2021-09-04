@@ -13,8 +13,5 @@ public class WgerDatabase {
     private Integer id = 1;
 
     @OneToMany(cascade = CascadeType.ALL)
-
     private List<Result> results;
-
-
 }

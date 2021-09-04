@@ -16,6 +16,7 @@ public class Exercise {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+
     private Integer wgerId;
 
     private String name;

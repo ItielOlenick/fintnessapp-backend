@@ -42,6 +42,7 @@ public class WgerController {
     public void updateWgerDatabase() {
         List<Exercise> exercises = new ArrayList<>();
         List<Category> categories = new ArrayList<>();
+        List<Exercise> existingWger = exerciseRepository.findByUser_Id("wger");
 
         WgerDatabase exerciseDatabase =
                 webClientBuilder.build()
@@ -63,12 +64,15 @@ public class WgerController {
         for (Result result : exerciseDatabase.getResults()) {
             Exercise exercise = new Exercise();
 
-            exercise.setWgerId(result.getId());
-            exercise.setUser(userRepository.getById("wger"));
-            exercise.setName(result.getName());
-            exercise.setCategory(result.getCategory());
-            exercise.setExercisePath("[\"wgerExercises\","+result.getCategory()+",\""+result.getName()+"\"]");
-            exercises.add(exercise);
+            if(!existingWger.stream().anyMatch(o -> o.getWgerId().equals(result.getId()))) {
+                exercise.setWgerId(result.getId());
+                exercise.setUser(userRepository.getById("wger"));
+                exercise.setName(result.getName());
+                exercise.setCategory(result.getCategory());
+                exercise.setExercisePath("[\"wgerExercises\","+result.getCategory()+",\""+result.getName()+"\"]");
+                exercises.add(exercise);
+            }
+
         }
 
         WgerDatabase categoryDatabase =
