@@ -5,10 +5,7 @@ import com.exercise.fitnessapp.repository.SetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,8 +17,19 @@ public class SetController {
     @Autowired
     SetRepository setRepository;
 
-    @GetMapping("/active_exercises")
-    public ResponseEntity<List<Set>> readSets() {
-        return new ResponseEntity<List<Set>>(setRepository.findAll(), HttpStatus.OK);
+    @GetMapping("/sets")
+    public ResponseEntity<List<Set>> readSets(@RequestParam String userId) {
+        return new ResponseEntity<List<Set>>(setRepository.findByUser_Id(userId), HttpStatus.OK);
     }
+
+    @GetMapping("/setsbyname")
+    public ResponseEntity<List<Set>> readSetsByName(@RequestParam String userId, String name) {
+        return new ResponseEntity<List<Set>>(setRepository.findByUser_IdAndNameIs(userId, name), HttpStatus.OK);
+    }
+
+    @GetMapping("/prs")
+    public ResponseEntity<List<Set>> readPrs(@RequestParam String userId) {
+        return new ResponseEntity<List<Set>>(setRepository.findByUser_IdAndPrIsTrue(userId), HttpStatus.OK);
+    }
+
 }

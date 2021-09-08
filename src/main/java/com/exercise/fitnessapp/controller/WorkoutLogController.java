@@ -1,7 +1,7 @@
 package com.exercise.fitnessapp.controller;
 
 import com.exercise.fitnessapp.entity.Set;
-import com.exercise.fitnessapp.entity.User;
+
 import com.exercise.fitnessapp.entity.WorkoutLog;
 import com.exercise.fitnessapp.repository.SetRepository;
 import com.exercise.fitnessapp.repository.UserRepository;
@@ -11,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -36,11 +34,10 @@ public class WorkoutLogController {
     }
 
     @PostMapping("/logs")
-    public ResponseEntity<WorkoutLog> creatWorkoutLog(@RequestBody WorkoutLog workout) {
-//        workoutLogRepository.save(workout);
-        checkPr(workout, workout.getUser().getId());
+    public ResponseEntity<List<Set>> creatWorkoutLog(@RequestBody WorkoutLog workout) {
+        List<Set> broken = checkPr(workout, workout.getUser().getId());
         workoutLogRepository.save(workout);
-        return new ResponseEntity<WorkoutLog>(HttpStatus.CREATED);
+        return new ResponseEntity<List<Set>>(broken, HttpStatus.CREATED);
     }
 
     @GetMapping("/logs/{id}")
@@ -55,39 +52,48 @@ public class WorkoutLogController {
     }
 
     @PutMapping("/logs")
-    public ResponseEntity<WorkoutLog> updateWorkout(@RequestBody WorkoutLog workout) {
-        return new ResponseEntity<WorkoutLog>(workoutLogRepository.save(workout), HttpStatus.OK);
+    public ResponseEntity<List<Set>> updateWorkout(@RequestBody WorkoutLog workout) {
+        List<Set> broken = checkPr(workout, workout.getUser().getId());
+        workoutLogRepository.save(workout);
+        return new ResponseEntity<List<Set>>(broken, HttpStatus.CREATED);
     }
 
 
-    public List<String[]> checkPr(WorkoutLog log, String userId) {
-        List<String[]> brokenPrs = new ArrayList<>();
-        boolean prBroken = false;
-        boolean firstTime = false;
-//        List<Set> userPrs = userRepository.findById(userId).get().getPrs();
+    public List<Set> checkPr(WorkoutLog log, String userId) {
+
+        List<Set> brokenPrs = new ArrayList<>();
         List<Set> userPrs = setRepository.findByUser_IdAndPrIsTrue(userId);
-        for (Set set : log.getSets()
+
+        java.util.Set<String> nameList = new HashSet<>();
+        List<Set> distinctSets = log.getSets().stream().filter(s -> nameList.add(s.getName())).collect(Collectors.toList());
+
+
+        for (Set set : distinctSets
         ) {
-            System.out.println("are we even here?");
+            System.out.println("******************set in check: "+set.getName());
             if (userPrs.stream().noneMatch(o -> o.getName().equals(set.getName()))) {
-
-                set.setPr(true);
-                firstTime = true;
-                System.out.println("First time using this exercise");
+//                First time using this exercise
+                Set maxSet = log.getSets().stream().filter(o -> o.getName().equals(set.getName())).max(Comparator.comparing(Set::getWeight)).orElseThrow(NoSuchElementException::new);
+                maxSet.setPr(true);
             } else {
-                List<Set> findPrsByName = userPrs.stream().filter(o -> o.getName().equals(set.getName())).collect(Collectors.toList());
-                Set existingPr = findPrsByName.get(findPrsByName.size() - 1);
-                System.out.println("Existing pr for" + set.getName() + " is " + existingPr);
-                System.out.println("Checking against " + set);
-                if (existingPr.getWeight() < set.getWeight()) {
-//                    uncomment if want to show only last pr as pr
-//                    existingPr.setPr(false);
-                    set.setPr(true);
 
-                    System.out.println("set to break pr:" + set);
+                Set existingPr = setRepository.findByUser_IdAndNameIsOrderByWeightDesc(userId, set.getName()).get(0);
+                Set maxSet = log.getSets().stream().filter(o -> o.getName().equals(set.getName())).max(Comparator.comparing(Set::getWeight)).orElseThrow(NoSuchElementException::new);
+
+                System.out.println("Existing pr for" + set.getName() + " is " + existingPr);
+                System.out.println("Checking against " + maxSet);
+                if (existingPr.getWeight() < maxSet.getWeight()) {
+                    existingPr.setPr(false);
+                    maxSet.setPr(true);
+
+                    System.out.println("set to break pr:" + maxSet);
                     System.out.println("updated pr, user's pr state: " + userPrs);
-                    brokenPrs.add(new String[] {existingPr.getName(),set.getName()});
-                    prBroken = true;
+                    Set copy = new Set();
+                    copy.setWeight(existingPr.getWeight());
+                    copy.setName(existingPr.getName());
+                    brokenPrs.add(copy);
+                    brokenPrs.add(maxSet);
+
                 }
             }
         }
