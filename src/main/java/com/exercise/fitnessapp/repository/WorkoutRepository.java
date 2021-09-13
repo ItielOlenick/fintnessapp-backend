@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface WorkoutRepository extends JpaRepository<Workout, Integer> {
-    List<Workout> findByOwner(String owner);
+    List<Workout> findByUser_IdAndType(String user, String type);
+
 }
+
