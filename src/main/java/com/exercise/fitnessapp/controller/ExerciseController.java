@@ -19,8 +19,8 @@ public class ExerciseController {
     ExerciseRepository exerciseRepository;
 
     @GetMapping("/exercises")
-    public ResponseEntity<List<Exercise>> readExercises(@RequestParam("owner") String owner) {
-        return new ResponseEntity<List<Exercise>>(exerciseRepository.findByOwner(owner), HttpStatus.OK);
+    public ResponseEntity<List<Exercise>> readExercises(@RequestParam("owner") String userId) {
+        return new ResponseEntity<List<Exercise>>(exerciseRepository.findByUser_Id(userId), HttpStatus.OK);
     }
 
     @GetMapping("/exercises/{id}")

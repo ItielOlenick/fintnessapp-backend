@@ -1,8 +1,11 @@
 package com.exercise.fitnessapp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="tbl_set")
@@ -23,5 +26,13 @@ public class Set{
 
     private String exercisePath;
 
-    private boolean isPr = false;
+    private boolean pr = false;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User user;
+
+    @UpdateTimestamp
+    private Date preformedAt;
 }
