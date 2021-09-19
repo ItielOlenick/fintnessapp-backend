@@ -33,6 +33,5 @@ public class Set{
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
-    @UpdateTimestamp
     private Date preformedAt;
 }
