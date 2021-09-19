@@ -82,9 +82,10 @@ public class WorkoutLogController {
 
                 System.out.println("Existing pr for" + set.getName() + " is " + existingPr);
                 System.out.println("Checking against " + maxSet);
+                maxSet.setPr(true);
                 if (existingPr.getWeight() < maxSet.getWeight()) {
 //                    existingPr.setPr(false);
-                    maxSet.setPr(true);
+
 
                     System.out.println("set to break pr:" + maxSet);
                     System.out.println("updated pr, user's pr state: " + userPrs);
