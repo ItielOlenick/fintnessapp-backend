@@ -62,7 +62,7 @@ public class WorkoutLogController {
     public List<Set> checkPr(WorkoutLog log, String userId) {
 
         List<Set> brokenPrs = new ArrayList<>();
-        List<Set> userPrs = setRepository.findByUser_IdAndPrIsTrue(userId);
+        List<Set> userPrs = setRepository.findByUser_Id(userId);
 
         java.util.Set<String> nameList = new HashSet<>();
         List<Set> distinctSets = log.getSets().stream().filter(s -> nameList.add(s.getName())).collect(Collectors.toList());
@@ -83,7 +83,7 @@ public class WorkoutLogController {
                 System.out.println("Existing pr for" + set.getName() + " is " + existingPr);
                 System.out.println("Checking against " + maxSet);
                 if (existingPr.getWeight() < maxSet.getWeight()) {
-                    existingPr.setPr(false);
+//                    existingPr.setPr(false);
                     maxSet.setPr(true);
 
                     System.out.println("set to break pr:" + maxSet);
