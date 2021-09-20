@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface WorkoutLogRepository extends JpaRepository<WorkoutLog, Integer> {
     List<WorkoutLog> findByUser_Id(String user);
-    List<WorkoutLog> findByUser_IdOrderByCreatedAtDesc(String user);
+    List<WorkoutLog> findByUser_IdOrderByStartedAtDesc(String user);
 }
