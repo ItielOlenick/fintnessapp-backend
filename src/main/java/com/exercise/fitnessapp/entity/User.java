@@ -16,9 +16,9 @@ public class User {
     @Id
     private String id;
 
-    private boolean firstLogView;
+    private Boolean firstLogView = false;
 
-    private boolean firstLogList;
+    private Boolean firstLogList;
 
     @CreationTimestamp
     private Date joined;
