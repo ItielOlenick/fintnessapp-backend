@@ -1,8 +1,11 @@
 package com.exercise.fitnessapp.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -13,12 +16,11 @@ public class User {
     @Id
     private String id;
 
-//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
-//    private List<Workout> workouts;
+    private boolean firstLogView;
 
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<Set> prs;
+    private boolean firstLogList;
 
-//    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true, mappedBy = "user")
-//    private List<Exercise> exercises;
+    @CreationTimestamp
+    private Date joined;
+
 }
