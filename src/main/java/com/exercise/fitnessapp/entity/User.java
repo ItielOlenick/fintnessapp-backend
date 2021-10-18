@@ -18,7 +18,7 @@ public class User {
 
     private Boolean firstLogView = false;
 
-    private Boolean firstLogList;
+    private Boolean firstLogList = false;
 
     @CreationTimestamp
     private Date joined;
