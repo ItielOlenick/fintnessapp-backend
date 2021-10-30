@@ -20,6 +20,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @EnableScheduling
@@ -40,6 +41,16 @@ public class WgerController {
     @Scheduled(fixedRate = 604800000)
     @PutMapping
     public void updateWgerDatabase() {
+        if(!userRepository.existsById("wger")){
+            User wger = new User();
+            wger.setId("wger");
+            userRepository.save(wger);
+        }
+        else {
+            System.out.println("Found" + userRepository.findById("wger"));
+        }
+
+
         List<Exercise> exercises = new ArrayList<>();
         List<Category> categories = new ArrayList<>();
         List<Exercise> existingWger = exerciseRepository.findByUser_Id("wger");
